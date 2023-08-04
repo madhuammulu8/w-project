@@ -1,0 +1,48 @@
+import streamlit as st
+from pyecharts import options as opts
+from pyecharts.charts import Sankey, Timeline
+from pyecharts.faker import Faker
+from streamlit_echarts import st_pyecharts
+
+
+# Create the Streamlit app
+st.title("Sankey Diagram Timeline")
+
+# Define data
+tl = Timeline()
+names = ("商家A", "商家B", "商家C")
+nodes = [{"name": name} for name in names]
+
+# Custom function to set line style of the links
+def get_line_style(color):
+    return {
+        "normal": {
+            "color": color,
+            "border_color": color,
+            "border_width": 1.5,
+        }
+    }
+
+# Create Sankey diagrams for each year in the timeline
+for i in range(2015, 2020):
+    links = [
+        {"source": names[0], "target": names[1], "value": Faker.values()[0]},
+        {"source": names[1], "target": names[2], "value": Faker.values()[0]},
+    ]
+    sankey = (
+        Sankey()
+        .add(
+            "sankey",
+            nodes,
+            links,
+            label_opts=opts.LabelOpts(position="right"),
+            linestyle_opt=get_line_style("source"),
+        )
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="{}年商店（A, B, C）营业额差".format(i))
+        )
+    )
+    tl.add(sankey, "{}年".format(i))
+
+# Render the timeline in Streamlit
+st_pyecharts(tl, height=500)
