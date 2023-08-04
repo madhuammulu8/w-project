@@ -1,90 +1,86 @@
 import streamlit as st
-
-
-
-st.set_page_config(
-    page_title="Wipro-Dashboard",
-    page_icon="wipro_emoji.jpeg",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
-)
-
-st.subheader("Welcome to the Wipro Finance Dashboard ")
-
-
+from streamlit_echarts import st_echarts
 from pyecharts import options as opts
-from pyecharts.charts import Graph
+from pyecharts.charts import Pie, Timeline
 from streamlit_echarts import st_pyecharts
-from pyecharts import options as opts
-from pyecharts.charts import WordCloud
+import pandas as pd
 
-def main():
 
-    nodes = [
-        {"name": "Conda", "symbolSize": 50},
-        {"name": "Python", "symbolSize": 50},
-        {"name": "streamlit", "symbolSize": 50},
-        {"name": "Github(CI/CD)", "symbolSize": 50},
-        {"name": "Echarts/pyecharts", "symbolSize": 50},
-        {"name": "Matplotylib", "symbolSize": 50},
-        {"name": "Google APIs", "symbolSize": 50},
-        {"name": "Pandas", "symbolSize": 50},
-        {"name": "Finaces", "symbolSize": 50},
+st.subheader("Wipro Investments in Different Quarters for the past Years")
+
+# Define the ECharts options
+options = {
+    "legend": {},
+    "tooltip": {},
+    "dataset": {
+        "source": [
+            ['product', '2018', '2019', '2020', '2021','2022'],
+            ['Quarter 1', 41.1, 30.4, 65.1, 53.3, 88.3],
+            ['Quarter 2', 86.5, 92.1, 85.7, 83.1, 87.3],
+            ['Quarter 3', 24.1, 67.2, 79.5, 86.4, 67.8],
+            ['Quarter 4', 34.1, 76.2, 94.5, 68.4, 73.9]
+        ]
+    },
+    "xAxis": [
+        {"type": 'category', "gridIndex": 0},
+        {"type": 'category', "gridIndex": 1}
+    ],
+    "yAxis": [{"gridIndex": 0}, {"gridIndex": 1}],
+    "grid": [{"bottom": '55%'}, {"top": '55%'}],
+    "series": [
+        # These series are in the first grid.
+        {"type": 'bar', "seriesLayoutBy": 'row'},
+        {"type": 'bar', "seriesLayoutBy": 'row'},
+        {"type": 'bar', "seriesLayoutBy": 'row'},
+        {"type": 'bar', "seriesLayoutBy": 'row'},
+        # These series are in the second grid.
+        {"type": 'bar', "xAxisIndex": 1, "yAxisIndex": 1},
+        {"type": 'bar', "xAxisIndex": 1, "yAxisIndex": 1},
+        {"type": 'bar', "xAxisIndex": 1, "yAxisIndex": 1},
+        {"type": 'bar', "xAxisIndex": 1, "yAxisIndex": 1},
+        {"type": 'bar', "xAxisIndex": 1, "yAxisIndex": 1}
 
     ]
-    
-    links = []
-    for i in nodes:
-        for j in nodes:
-            links.append({"source": i.get("name"), "target": j.get("name")})
+}
 
-    c = (
-        Graph()
-        .add("", nodes, links, repulsion=8000)
-        .set_global_opts(title_opts=opts.TitleOpts(title="Below are the tools used to build this application"))
+# Render the ECharts chart using streamlit_echarts
+st_echarts(options, height=500)
+
+st.divider()
+
+st.header("Year wise Expenses")
+
+# Define data
+attr = ["Salaries", "Office Expenses", "Employee Benifits", "Maintenance", "Other Expenses"]
+# Replace the following values with your own data for each year
+values_2018 = [100, 200, 150, 300, 120]
+values_2019 = [120, 150, 180, 250, 110]
+values_2021 = [80, 120, 250, 180, 90]
+values_2022 = [200, 180, 160, 280, 150]
+values_2023 = [150, 220, 170, 260, 100]
+
+tl = Timeline()
+
+# Create Pie charts for each year in the timeline
+for i, values in zip(range(2018, 2023), [values_2018, values_2019, values_2021, values_2022, values_2023]):
+    pie = (
+        Pie()
+        .add(
+            "Check",
+            [list(z) for z in zip(attr, values)],
+            rosetype="radius",
+            radius=["30%", "55%"],
+            label_opts=opts.LabelOpts(formatter="{b}: {d}%"),  # Display category name and percentage
+        )
+        .set_global_opts(title_opts=opts.TitleOpts("{}".format(i)))
     )
-    
-    st_pyecharts(c, height = 500)
+    tl.add(pie, "{}".format(i))
 
-st.markdown('I am **:green[ Navya]**, I am here by Presenting my project MVP of Finacial System Of wipro under the Gudiance of **:green[Dr.Prasant Kumar]**')
-st.markdown('A **:blue[financial dashboard portal(MVP)]** built using Streamlit would be a solution to this problem. Streamlit is a Python framework that allows you to create interactive web applications. A financial dashboard portal built using Streamlit would be easy to use and would present the data in a way that is easy to understand. It would facilitate the decision-making of companies regarding their financial situation.')
+# Render the Pie chart timeline using st_echarts
+st_pyecharts(tl, height=500)
 
-
-
-if __name__ == "__main__":
-    main()
-
-
-st.subheader('Features') 
-# The Financial Dashboard Portal will consist of the following main features:
-
-
-st.markdown('**:blue[Home]**')
-st.markdown('The Home section will serve as the landing page and provide an overview of the portals capabilities and its importance for Wipros financial management.')
-
-st.markdown('**:blue[Investment & Expenses]**')
-st.markdown('Detailed information on the organizations investment and expenditure will be displayed in this section. Interactive Charts showing historical trends will be included, enabling users to analyze the finance patterns')
-st.markdown('**:blue[Annual and Monthly Tracker]**')
-st.markdown('Tracking and comparing financial performance on an annual basis shall be the focus of the Annual Tracker section. Each year/Month, users will be able to look at the Growth rate of the key financial metrics.')
-st.markdown('**:blue[Projects Budgets]**')
-st.markdown('Details on the financial situation of existing projects will be provided in the Projects Budgets section. For each project, it will cover the allocation of resources, real expenditure, and variance analysis.')
-
-
-
-hide_st_style = """
-<style>
-#Mainmenu {Visibility : hidden;}
-footer {Visibility : hidden;}
-header {Visibility : hidden;}
-</style>
-"""
-st.markdown(hide_st_style,unsafe_allow_html=True)
-
-
-
-
+if st.checkbox("Show Data Table"):
+    st.subheader("Year-wise Expenses Data")
+    for i, values in zip(range(2018, 2023), [values_2018, values_2019, values_2021, values_2022, values_2023]):
+        st.write(str(i))
+        st.write(pd.DataFrame({"Categories": attr, "Expenses": values}))
