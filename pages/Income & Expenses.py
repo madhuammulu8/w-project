@@ -9,7 +9,7 @@ import numpy as np
 import random
 
 
-st.subheader("Wipro Investments in Different Quarters for the past Years")
+st.subheader("Wipro Income in Different Quarters for the past Years")
 
 # Define the ECharts options
 options = {
