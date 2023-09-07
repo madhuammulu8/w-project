@@ -87,3 +87,12 @@ if st.checkbox("Show Data Table"):
     for i, values in zip(range(2018, 2023), [values_2018, values_2019, values_2021, values_2022, values_2023]):
         st.write(str(i))
         st.write(pd.DataFrame({"Categories": attr, "Expenses": values}))
+
+hide_st_style = """
+<style>
+#Mainmenu {Visibility : hidden;}
+footer {Visibility : hidden;}
+header {Visibility : hidden;}
+</style>
+"""
+st.markdown(hide_st_style,unsafe_allow_html=True)
