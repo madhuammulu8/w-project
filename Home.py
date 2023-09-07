@@ -49,7 +49,7 @@ def main():
     
     st_pyecharts(c, height = 500)
 
-st.markdown('I am **:green[ Navya]**, I am here by Presenting my project MVP of Finacial System Of wipro under the Gudiance of **:green[Dr.Prasant Kumar]**')
+st.markdown('I am **:green[ Navya]**, I am here to present my project MVP of Finacial System Of wipro under the Gudiance of **:green[Dr.Prasant Kumar]**')
 st.markdown('A **:blue[financial dashboard portal(MVP)]** built using Streamlit would be a solution to this problem. Streamlit is a Python framework that allows you to create interactive web applications. A financial dashboard portal built using Streamlit would be easy to use and would present the data in a way that is easy to understand. It would facilitate the decision-making of companies regarding their financial situation.')
 
 
