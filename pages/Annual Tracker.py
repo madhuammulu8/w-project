@@ -209,4 +209,11 @@ twentyone.metric(label="2021", value="30300", delta="-44.9 %")
 twentytwo.metric(label="2022", value="17600", delta="-53.02 %")
 twentythree.metric(label="2023", value="4400", delta="0",delta_color="off")
 
-
+hide_st_style = """
+<style>
+#Mainmenu {Visibility : hidden;}
+footer {Visibility : hidden;}
+header {Visibility : hidden;}
+</style>
+"""
+st.markdown(hide_st_style,unsafe_allow_html=True)
